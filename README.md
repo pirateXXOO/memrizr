@@ -1,1 +1,2 @@
 # memrizr
+# main start
