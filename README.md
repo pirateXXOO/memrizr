@@ -1,4 +1,5 @@
 # memrizr
+<<<<<<< HEAD
 
 # main start
 
