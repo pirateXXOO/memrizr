@@ -79,6 +79,14 @@ func NewAuthorization(reason string) *Error {
 	}
 }
 
+// NewBadRequest to create 400 errors (validation, for example)
+func NewBadRequest(reason string) *Error {
+	return &Error{
+		Type:    BadRequest,
+		Message: fmt.Sprintf("Bad request. Reason: %v", reason),
+	}
+}
+
 // NewConflict to create a 409
 func NewConflict(name string, value string) *Error {
 	return &Error{

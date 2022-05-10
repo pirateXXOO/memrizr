@@ -1,4 +1,4 @@
-module github.com/pirateXXOO/memrizr
+module github.com/pirateXXOO/memrizr/account
 
 go 1.17
 

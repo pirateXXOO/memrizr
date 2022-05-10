@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/pirateXXOO/memrizr/model"
-	"github.com/pirateXXOO/memrizr/model/mocks"
+	"github.com/pirateXXOO/memrizr/account/model"
+	"github.com/pirateXXOO/memrizr/account/model/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
