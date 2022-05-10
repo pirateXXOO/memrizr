@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/pirateXXOO/memrizr/model"
+	"github.com/pirateXXOO/memrizr/account/model"
 	"github.com/stretchr/testify/mock"
 )
 
