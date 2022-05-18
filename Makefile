@@ -15,13 +15,13 @@ create-keypair:
 
 migrate-create:
 	@echo  "---Creating migration files---"
-	docker run -v $(MPATH):/migrations  migrate/migrate  create -ext sql -dir /migrations/ -seq -digits 5 $(NAME)
+	migrate create -ext sql -dir $(MPATH) -seq -digits 5 $(NAME)
 
 migrate-up:
-	docker run -v $(MPATH):/migrations  --network host migrate/migrate -path /migrations -source file:///migrations -database postgres://postfres:password@localhost:$(PORT)/postgres?sslmode=disable up $(N)
+	migrate -source file://$(MPATH) -database postgres://postfres:password@localhost:$(PORT)/postgres?sslmode=disable up $(N)
 
 migrate-down:
-	docker run -v $(MPATH):/migrations  --network host migrate/migrate -path /migrations -source file:///migrations -database postgres://postfres:password@localhost:$(PORT)/postgres?sslmode=disable down $(N)
+	migrate -source file://$(MPATH) -database postgres://postfres:password@localhost:$(PORT)/postgres?sslmode=disable down $(N)
 
 migrate-force:
-	docker run -v $(MPATH):/migrations  --network host migrate/migrate -path /migrations -source file:///migrations -database postgres://postfres:password@localhost:$(PORT)/postgres?sslmode=disable force $(VERSION)
+	migrate -source file://$(MPATH) -database postgres://postfres:password@localhost:$(PORT)/postgres?sslmode=disable force $(VERSION)
