@@ -19,7 +19,6 @@ func (h *Handler) Me(c *gin.Context) {
 	// This is an extra safety measure
 	// We'll extract this logic later as it will be common to all handler
 	// methods which require a valid user
-
 	if !exists {
 		log.Printf("Unable to extract user from request context for unknown reason: %v\n", c)
 		err := apperrors.NewInternal()
@@ -48,8 +47,4 @@ func (h *Handler) Me(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"user": u,
 	})
-
-	// c.JSON(http.StatusOK, gin.H{
-	// 	"hello": "it's me",
-	// })
 }

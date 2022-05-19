@@ -8,7 +8,7 @@ import (
 	"github.com/pirateXXOO/memrizr/account/model/apperrors"
 )
 
-// userd to help extract validation errors
+// used to help extract validation errors
 type invalidArgument struct {
 	Field string `json:"field"`
 	Value string `json:"value"`
@@ -16,14 +16,14 @@ type invalidArgument struct {
 	Param string `json:"param"`
 }
 
-// bindData is helper function , returns false if data is not bound
+// bindData is helper function, returns false if data is not bound
 func bindData(c *gin.Context, req interface{}) bool {
 	// Bind incoming json to struct and check for validation errors
 	if err := c.ShouldBind(req); err != nil {
 		log.Printf("Error binding data: %+v\n", err)
 
 		if errs, ok := err.(validator.ValidationErrors); ok {
-			// could probably extract this, it is also in middleware_auth_ser
+			// could probably extract this, it is also in middleware_auth_user
 			var invalidArgs []invalidArgument
 
 			for _, err := range errs {
@@ -35,7 +35,7 @@ func bindData(c *gin.Context, req interface{}) bool {
 				})
 			}
 
-			err := apperrors.NewBadRequest("Invalid request parameters, See invalidArgs")
+			err := apperrors.NewBadRequest("Invalid request parameters. See invalidArgs")
 
 			c.JSON(err.Status(), gin.H{
 				"error":       err,
@@ -53,5 +53,6 @@ func bindData(c *gin.Context, req interface{}) bool {
 		c.JSON(fallBack.Status(), gin.H{"error": fallBack})
 		return false
 	}
+
 	return true
 }

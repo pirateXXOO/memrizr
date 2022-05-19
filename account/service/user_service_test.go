@@ -35,7 +35,6 @@ func TestGet(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, u, mockUserResp)
 		mockUserRepository.AssertExpectations(t)
-
 	})
 
 	t.Run("Error", func(t *testing.T) {
@@ -60,6 +59,7 @@ func TestGet(t *testing.T) {
 func TestSignup(t *testing.T) {
 	t.Run("Success", func(t *testing.T) {
 		uid, _ := uuid.NewRandom()
+
 		mockUser := &model.User{
 			Email:    "bob@bob.com",
 			Password: "howdyyhoneighbor!",
@@ -75,7 +75,7 @@ func TestSignup(t *testing.T) {
 		mockUserRepository.
 			On("Create", mock.AnythingOfType("*context.emptyCtx"), mockUser).
 			Run(func(args mock.Arguments) {
-				userArg := args.Get(1).(*model.User) // arg 0 is context , arg 1 is *User
+				userArg := args.Get(1).(*model.User) // arg 0 is context, arg 1 is *User
 				userArg.UID = uid
 			}).Return(nil)
 
@@ -103,7 +103,7 @@ func TestSignup(t *testing.T) {
 
 		mockErr := apperrors.NewConflict("email", mockUser.Email)
 
-		// We can user Run method to modify the user when the Create method is called.
+		// We can use Run method to modify the user when the Create method is called.
 		// We can then chain on a Return method to return no error
 		mockUserRepository.
 			On("Create", mock.AnythingOfType("*context.emptyCtx"), mockUser).

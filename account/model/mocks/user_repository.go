@@ -23,6 +23,7 @@ func (m *MockUserRepository) FindByID(ctx context.Context, uid uuid.UUID) (*mode
 	}
 
 	var r1 error
+
 	if ret.Get(1) != nil {
 		r1 = ret.Get(1).(error)
 	}

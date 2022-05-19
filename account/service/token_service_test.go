@@ -17,10 +17,9 @@ func TestNewPairFromUser(t *testing.T) {
 	privKey, _ := jwt.ParseRSAPrivateKeyFromPEM(priv)
 	pub, _ := ioutil.ReadFile("../rsa_public_test.pem")
 	pubKey, _ := jwt.ParseRSAPublicKeyFromPEM(pub)
-
 	secret := "anotsorandomtestsecret"
 
-	// instantiate a common token seervice to be used by all tests
+	// instantiate a common token service to be used by all tests
 	tokenService := NewTokenService(&TSConfig{
 		PrivKey:       privKey,
 		PubKey:        pubKey,
@@ -69,6 +68,7 @@ func TestNewPairFromUser(t *testing.T) {
 			idTokenClaims.User.ImageURL,
 			idTokenClaims.User.Website,
 		}
+
 		assert.ElementsMatch(t, expectedClaims, actualIDClaims)
 		assert.Empty(t, idTokenClaims.User.Password) // password should never be encoded to json
 

@@ -17,7 +17,7 @@ type PGUserRepository struct {
 	DB *sqlx.DB
 }
 
-// NewUserRepository is a factory fo rinitializing User Repositories
+// NewUserRepository is a factory for initializing User Repositories
 func NewUserRepository(db *sqlx.DB) model.UserRepository {
 	return &PGUserRepository{
 		DB: db,
@@ -34,16 +34,17 @@ func (r *PGUserRepository) Create(ctx context.Context, u *model.User) error {
 			log.Printf("Could not create a user with email: %v. Reason: %v\n", u.Email, err.Code.Name())
 			return apperrors.NewConflict("email", u.Email)
 		}
+
 		log.Printf("Could not create a user with email: %v. Reason: %v\n", u.Email, err)
 		return apperrors.NewInternal()
 	}
 	return nil
-
 }
 
-// FindByID fethes user by id
+// FindByID fetches user by id
 func (r *PGUserRepository) FindByID(ctx context.Context, uid uuid.UUID) (*model.User, error) {
 	user := &model.User{}
+
 	query := "SELECT * FROM users WHERE uid=$1"
 
 	// we need to actually check errors as it could be something other than not found

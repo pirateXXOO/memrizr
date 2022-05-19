@@ -10,7 +10,7 @@ import (
 	"github.com/pirateXXOO/memrizr/account/model"
 )
 
-// IDTokenCustomClaims holds structure fo jwt claims of idToken
+// IDTokenCustomClaims holds structure of jwt claims of idToken
 type IDTokenCustomClaims struct {
 	User *model.User `json:"user"`
 	jwt.StandardClaims
@@ -20,7 +20,7 @@ type IDTokenCustomClaims struct {
 // Could call this GenerateIDTokenString, but the signature makes this fairly clear
 func generateIDToken(u *model.User, key *rsa.PrivateKey) (string, error) {
 	unixTime := time.Now().Unix()
-	tokenExp := unixTime + 60*15 // 15 minutes fro current time
+	tokenExp := unixTime + 60*15 // 15 minutes from current time
 
 	claims := IDTokenCustomClaims{
 		User: u,
@@ -34,10 +34,11 @@ func generateIDToken(u *model.User, key *rsa.PrivateKey) (string, error) {
 	ss, err := token.SignedString(key)
 
 	if err != nil {
-		log.Printf("Failed to sign id token string")
+		log.Println("Failed to sign id token string")
 		return "", err
 	}
-	return ss, err
+
+	return ss, nil
 }
 
 // RefreshToken holds the actual signed jwt string along with the ID
@@ -67,6 +68,7 @@ func generateRefreshToken(uid uuid.UUID, key string) (*RefreshToken, error) {
 		log.Println("Failed to generate refresh token ID")
 		return nil, err
 	}
+
 	claims := RefreshTokenCustomClaims{
 		UID: uid,
 		StandardClaims: jwt.StandardClaims{

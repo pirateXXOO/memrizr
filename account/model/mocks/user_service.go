@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-//MockUserService is a mock type for model.UserService
+// MockUserService is a mock type for model.UserService
 type MockUserService struct {
 	mock.Mock
 }
@@ -16,7 +16,7 @@ type MockUserService struct {
 // Get is mock of UserService Get
 func (m *MockUserService) Get(ctx context.Context, uid uuid.UUID) (*model.User, error) {
 	// args that will be passed to "Return" in the tests, when function
-	// is called with a uid, Hence the name "ret"
+	// is called with a uid. Hence the name "ret"
 	ret := m.Called(ctx, uid)
 
 	// first value passed to "Return"
@@ -43,5 +43,6 @@ func (m *MockUserService) Signup(ctx context.Context, u *model.User) error {
 	if ret.Get(0) != nil {
 		r0 = ret.Get(0).(error)
 	}
+
 	return r0
 }
