@@ -18,10 +18,10 @@ migrate-create:
 	migrate create -ext sql -dir $(MPATH) -seq -digits 5 $(NAME)
 
 migrate-up:
-	migrate -source file://$(MPATH) -database postgres://postfres:password@localhost:$(PORT)/postgres?sslmode=disable up $(N)
+	migrate -path $(MPATH) -database postgres://postgres:password@localhost:$(PORT)/postgres?sslmode=disable up $(N)
 
 migrate-down:
-	migrate -source file://$(MPATH) -database postgres://postfres:password@localhost:$(PORT)/postgres?sslmode=disable down $(N)
+	migrate -path $(MPATH) -database postgres://postgres:password@localhost:$(PORT)/postgres?sslmode=disable down $(N)
 
 migrate-force:
-	migrate -source file://$(MPATH) -database postgres://postfres:password@localhost:$(PORT)/postgres?sslmode=disable force $(VERSION)
+	migrate -path $(MPATH) -database postgres://postgres:password@localhost:$(PORT)/postgres?sslmode=disable force $(VERSION)

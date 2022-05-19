@@ -10,12 +10,12 @@ import (
 )
 
 // UserService acts as a struct for injecting an implementation of UserRepository
-// for user in service methods
+// for use in service methods
 type UserService struct {
 	UserRepository model.UserRepository
 }
 
-// USConfig will hold repositories that will enentually be injected into this
+// USConfig will hold repositories that will eventually be injected into this
 // service layer
 type USConfig struct {
 	UserRepository model.UserRepository
@@ -46,20 +46,19 @@ func (s *UserService) Signup(ctx context.Context, u *model.User) error {
 		return apperrors.NewInternal()
 	}
 
-	// now I realize why I originally used Signup(ctx, email , password)
+	// now I realize why I originally used Signup(ctx, email, password)
 	// then created a user. It's somewhat un-natural to mutate the user here
-
 	u.Password = pw
 
 	if err := s.UserRepository.Create(ctx, u); err != nil {
 		return err
 	}
 
-	// If we get around to adding events , we'd Publish it here
-	// err := s.EventBroker.PublishUserUpdated(u, true)
+	// If we get around to adding events, we'd Publish it here
+	// err := s.EventsBroker.PublishUserUpdated(u, true)
 
 	// if err != nil {
-	// return nil , apperrors.NewInternal()
+	// 	return nil, apperrors.NewInternal()
 	// }
 
 	return nil

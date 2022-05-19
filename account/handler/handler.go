@@ -39,7 +39,7 @@ func NewHandler(c *Config) {
 	g.POST("/signin", h.Signin)
 	g.POST("/signout", h.Signout)
 	g.POST("/tokens", h.Tokens)
-	g.POST("/iamge", h.Image)
+	g.POST("/image", h.Image)
 	g.DELETE("/image", h.DeleteImage)
 	g.PUT("/details", h.Details)
 }

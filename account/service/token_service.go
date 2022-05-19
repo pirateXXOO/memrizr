@@ -10,7 +10,8 @@ import (
 )
 
 // TokenService used for injecting an implementation of TokenRepository
-// for use in service methods along with keys and secrets for signing JWTS
+// for use in service methods along with keys and secrets for
+// signing JWTs
 type TokenService struct {
 	// TokenRepository model.TokenRepository
 	PrivKey       *rsa.PrivateKey
@@ -37,12 +38,11 @@ func NewTokenService(c *TSConfig) model.TokenService {
 	}
 }
 
-// NewPairFromUser creates fresh id and refresh tokens fro the current user
+// NewPairFromUser creates fresh id and refresh tokens for the current user
 // If a previous token is included, the previous token is removed from
 // the tokens repository
-func (s *TokenService) NewPairFromUser(ctx context.Context, u *model.User,
-	prevTokenID string) (*model.TokenPair, error) {
-	// No need to use a repository for idToken as it is unrelated to andy data source
+func (s *TokenService) NewPairFromUser(ctx context.Context, u *model.User, prevTokenID string) (*model.TokenPair, error) {
+	// No need to use a repository for idToken as it is unrelated to any data source
 	idToken, err := generateIDToken(u, s.PrivKey)
 
 	if err != nil {
@@ -53,11 +53,11 @@ func (s *TokenService) NewPairFromUser(ctx context.Context, u *model.User,
 	refreshToken, err := generateRefreshToken(u.UID, s.RefreshSecret)
 
 	if err != nil {
-		log.Printf("Error generating regreshToken for uid: %v. Error: %v\n", u.UID, err.Error())
+		log.Printf("Error generating refreshToken for uid: %v. Error: %v\n", u.UID, err.Error())
 		return nil, apperrors.NewInternal()
 	}
 
-	// TODO: store refresh tokens by calling TokenRepository mehtods
+	// TODO: store refresh tokens by calling TokenRepository methods
 
 	return &model.TokenPair{
 		IDToken:      idToken,

@@ -22,13 +22,12 @@ func TestSignup(t *testing.T) {
 	t.Run("Email and Password Required", func(t *testing.T) {
 		// We just want this to show that it's not called in this case
 		mockUserService := new(mocks.MockUserService)
-		mockUserService.On("Signup", mock.AnythingOfType("*gin.Context"), mock.
-			AnythingOfType("*model.User")).Return(nil)
+		mockUserService.On("Signup", mock.AnythingOfType("*gin.Context"), mock.AnythingOfType("*model.User")).Return(nil)
 
 		// a response recorder for getting written http response
 		rr := httptest.NewRecorder()
 
-		// don't need a middle ware as we don't yet have authorized user
+		// don't need a middleware as we don't yet have authorized user
 		router := gin.Default()
 
 		NewHandler(&Config{
@@ -42,7 +41,7 @@ func TestSignup(t *testing.T) {
 		})
 		assert.NoError(t, err)
 
-		// user bytes.NewBuffer to create a reader
+		// use bytes.NewBuffer to create a reader
 		request, err := http.NewRequest(http.MethodPost, "/signup", bytes.NewBuffer(reqBody))
 		assert.NoError(t, err)
 
@@ -53,16 +52,16 @@ func TestSignup(t *testing.T) {
 		assert.Equal(t, 400, rr.Code)
 		mockUserService.AssertNotCalled(t, "Signup")
 	})
+
 	t.Run("Invalid email", func(t *testing.T) {
 		// We just want this to show that it's not called in this case
 		mockUserService := new(mocks.MockUserService)
-		mockUserService.On("Signup", mock.AnythingOfType("*gin.Context"), mock.
-			AnythingOfType("*model.User")).Return(nil)
+		mockUserService.On("Signup", mock.AnythingOfType("*gin.Context"), mock.AnythingOfType("*model.User")).Return(nil)
 
 		// a response recorder for getting written http response
 		rr := httptest.NewRecorder()
 
-		// don't need a middle ware as we don't yet have authorized user
+		// don't need a middleware as we don't yet have authorized user
 		router := gin.Default()
 
 		NewHandler(&Config{
@@ -77,7 +76,7 @@ func TestSignup(t *testing.T) {
 		})
 		assert.NoError(t, err)
 
-		// user bytes.NewBuffer to create a reader
+		// use bytes.NewBuffer to create a reader
 		request, err := http.NewRequest(http.MethodPost, "/signup", bytes.NewBuffer(reqBody))
 		assert.NoError(t, err)
 
@@ -92,13 +91,12 @@ func TestSignup(t *testing.T) {
 	t.Run("Password too short", func(t *testing.T) {
 		// We just want this to show that it's not called in this case
 		mockUserService := new(mocks.MockUserService)
-		mockUserService.On("Signup", mock.AnythingOfType("*gin.Context"), mock.
-			AnythingOfType("*model.User")).Return(nil)
+		mockUserService.On("Signup", mock.AnythingOfType("*gin.Context"), mock.AnythingOfType("*model.User")).Return(nil)
 
 		// a response recorder for getting written http response
 		rr := httptest.NewRecorder()
 
-		// don't need a middle ware as we don't yet have authorized user
+		// don't need a middleware as we don't yet have authorized user
 		router := gin.Default()
 
 		NewHandler(&Config{
@@ -113,7 +111,7 @@ func TestSignup(t *testing.T) {
 		})
 		assert.NoError(t, err)
 
-		// user bytes.NewBuffer to create a reader
+		// use bytes.NewBuffer to create a reader
 		request, err := http.NewRequest(http.MethodPost, "/signup", bytes.NewBuffer(reqBody))
 		assert.NoError(t, err)
 
@@ -127,13 +125,12 @@ func TestSignup(t *testing.T) {
 	t.Run("Password too long", func(t *testing.T) {
 		// We just want this to show that it's not called in this case
 		mockUserService := new(mocks.MockUserService)
-		mockUserService.On("Signup", mock.AnythingOfType("*gin.Context"), mock.
-			AnythingOfType("*model.User")).Return(nil)
+		mockUserService.On("Signup", mock.AnythingOfType("*gin.Context"), mock.AnythingOfType("*model.User")).Return(nil)
 
 		// a response recorder for getting written http response
 		rr := httptest.NewRecorder()
 
-		// don't need a middle ware as we don't yet have authorized user
+		// don't need a middleware as we don't yet have authorized user
 		router := gin.Default()
 
 		NewHandler(&Config{
@@ -148,7 +145,7 @@ func TestSignup(t *testing.T) {
 		})
 		assert.NoError(t, err)
 
-		// user bytes.NewBuffer to create a reader
+		// use bytes.NewBuffer to create a reader
 		request, err := http.NewRequest(http.MethodPost, "/signup", bytes.NewBuffer(reqBody))
 		assert.NoError(t, err)
 
@@ -165,13 +162,14 @@ func TestSignup(t *testing.T) {
 			Email:    "bob@bob.com",
 			Password: "avalidpassword",
 		}
+
 		mockUserService := new(mocks.MockUserService)
 		mockUserService.On("Signup", mock.AnythingOfType("*gin.Context"), u).Return(apperrors.NewConflict("User Already Exists", u.Email))
 
 		// a response recorder for getting written http response
 		rr := httptest.NewRecorder()
 
-		// don't need a middle ware as we don't yet have authorized user
+		// don't need a middleware as we don't yet have authorized user
 		router := gin.Default()
 
 		NewHandler(&Config{
@@ -186,7 +184,7 @@ func TestSignup(t *testing.T) {
 		})
 		assert.NoError(t, err)
 
-		// user bytes.NewBuffer to create a reader
+		// use bytes.NewBuffer to create a reader
 		request, err := http.NewRequest(http.MethodPost, "/signup", bytes.NewBuffer(reqBody))
 		assert.NoError(t, err)
 
@@ -196,11 +194,9 @@ func TestSignup(t *testing.T) {
 
 		assert.Equal(t, 409, rr.Code)
 		mockUserService.AssertExpectations(t)
-
 	})
 
 	t.Run("Successful Token Creation", func(t *testing.T) {
-
 		u := &model.User{
 			Email:    "bob@bob.com",
 			Password: "avalidpassword",
@@ -210,13 +206,13 @@ func TestSignup(t *testing.T) {
 			IDToken:      "idToken",
 			RefreshToken: "refreshToken",
 		}
+
 		mockUserService := new(mocks.MockUserService)
 		mockTokenService := new(mocks.MockTokenService)
 
 		mockUserService.
 			On("Signup", mock.AnythingOfType("*gin.Context"), u).
 			Return(nil)
-
 		mockTokenService.
 			On("NewPairFromUser", mock.AnythingOfType("*gin.Context"), u, "").
 			Return(mockTokenResp, nil)
@@ -240,7 +236,7 @@ func TestSignup(t *testing.T) {
 		})
 		assert.NoError(t, err)
 
-		// user bytes.NewBuffer to create a reader
+		// use bytes.NewBuffer to create a reader
 		request, err := http.NewRequest(http.MethodPost, "/signup", bytes.NewBuffer(reqBody))
 		assert.NoError(t, err)
 
@@ -258,10 +254,9 @@ func TestSignup(t *testing.T) {
 
 		mockUserService.AssertExpectations(t)
 		mockTokenService.AssertExpectations(t)
-
 	})
-	t.Run("Failed Token Creation", func(t *testing.T) {
 
+	t.Run("Failed Token Creation", func(t *testing.T) {
 		u := &model.User{
 			Email:    "bob@bob.com",
 			Password: "avalidpassword",
@@ -275,7 +270,6 @@ func TestSignup(t *testing.T) {
 		mockUserService.
 			On("Signup", mock.AnythingOfType("*gin.Context"), u).
 			Return(nil)
-
 		mockTokenService.
 			On("NewPairFromUser", mock.AnythingOfType("*gin.Context"), u, "").
 			Return(nil, mockErrorResponse)
@@ -299,7 +293,7 @@ func TestSignup(t *testing.T) {
 		})
 		assert.NoError(t, err)
 
-		// user bytes.NewBuffer to create a reader
+		// use bytes.NewBuffer to create a reader
 		request, err := http.NewRequest(http.MethodPost, "/signup", bytes.NewBuffer(reqBody))
 		assert.NoError(t, err)
 
@@ -317,7 +311,5 @@ func TestSignup(t *testing.T) {
 
 		mockUserService.AssertExpectations(t)
 		mockTokenService.AssertExpectations(t)
-
 	})
-
 }

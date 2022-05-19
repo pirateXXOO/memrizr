@@ -6,20 +6,20 @@ import (
 	"net/http"
 )
 
-// Type hods a type string and integer code for the error
+// Type holds a type string and integer code for the error
 type Type string
 
 // "Set" of valid errorTypes
 const (
 	Authorization   Type = "AUTHORIZATION"   // Authentication Failures -
 	BadRequest      Type = "BADREQUEST"      // Validation errors / BadInput
-	Conflict        Type = "CONFLICT"        // Already exits (eg, create account with existent email) -409
+	Conflict        Type = "CONFLICT"        // Already exists (eg, create account with existent email) - 409
 	Internal        Type = "INTERNAL"        // Server (500) and fallback errors
 	NotFound        Type = "NOTFOUND"        // For not finding resource
-	PayloadTooLarge Type = "PAYLOADTOOLARGE" // For uploading tons of JSON, or an image over the limit - 413
+	PayloadTooLarge Type = "PAYLOADTOOLARGE" // for uploading tons of JSON, or an image over the limit - 413
 )
 
-// Error hods a custom error for the application
+// Error holds a custom error for the application
 // which is helpful in returning a consistent
 // error type/message from API endpoints
 type Error struct {
@@ -74,8 +74,8 @@ func Status(err error) int {
 // NewAuthorization to create a 401
 func NewAuthorization(reason string) *Error {
 	return &Error{
-		Type:    BadRequest,
-		Message: fmt.Sprintf("Bad request. Reason: %v", reason),
+		Type:    Authorization,
+		Message: reason,
 	}
 }
 
@@ -87,34 +87,34 @@ func NewBadRequest(reason string) *Error {
 	}
 }
 
-// NewConflict to create a 409
+// NewConflict to create an error for 409
 func NewConflict(name string, value string) *Error {
 	return &Error{
 		Type:    Conflict,
-		Message: fmt.Sprintf("Resource: %v with value: %v already exists", name, value),
+		Message: fmt.Sprintf("resource: %v with value: %v already exists", name, value),
 	}
 }
 
-// NewInternal to create a 401
+// NewInternal for 500 errors and unknown errors
 func NewInternal() *Error {
 	return &Error{
 		Type:    Internal,
-		Message: fmt.Sprintln("Internal server error."),
+		Message: fmt.Sprintf("Internal server error."),
 	}
 }
 
-// NewNotFound to create a 404
+// NewNotFound to create an error for 404
 func NewNotFound(name string, value string) *Error {
 	return &Error{
 		Type:    NotFound,
-		Message: fmt.Sprintf("Resource: %v with value: %v not found ", name, value),
+		Message: fmt.Sprintf("resource: %v with value: %v not found", name, value),
 	}
 }
 
-// NewPayloadTooLarge to create a 401
+// NewPayloadTooLarge to create an error for 413
 func NewPayloadTooLarge(maxBodySize int64, contentLength int64) *Error {
 	return &Error{
 		Type:    PayloadTooLarge,
-		Message: fmt.Sprintf("Max payload size of %v exceeded. Actual payload size %v", maxBodySize, contentLength),
+		Message: fmt.Sprintf("Max payload size of %v exceeded. Actual payload size: %v", maxBodySize, contentLength),
 	}
 }

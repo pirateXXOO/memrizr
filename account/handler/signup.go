@@ -11,7 +11,6 @@ import (
 
 // signupReq is not exported, hence the lowercase name
 // it is used for validation and json marshalling
-
 type signupReq struct {
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required,gte=6,lte=30"`
@@ -50,8 +49,8 @@ func (h *Handler) Signup(c *gin.Context) {
 		log.Printf("Failed to create tokens for user: %v\n", err.Error())
 
 		// may eventually implement rollback logic here
-		// meaning, if we fail to create tokens after creatign a user,
-		// we make sure to clear/delete the created user in the datebase
+		// meaning, if we fail to create tokens after creating a user,
+		// we make sure to clear/delete the created user in the database
 
 		c.JSON(apperrors.Status(err), gin.H{
 			"error": err,
