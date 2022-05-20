@@ -19,7 +19,7 @@ type invalidArgument struct {
 // bindData is helper function, returns false if data is not bound
 func bindData(c *gin.Context, req interface{}) bool {
 	// Bind incoming json to struct and check for validation errors
-	if err := c.ShouldBind(req); err != nil {
+	if err := c.ShouldBindJSON(req); err != nil {
 		log.Printf("Error binding data: %+v\n", err)
 
 		if errs, ok := err.(validator.ValidationErrors); ok {
