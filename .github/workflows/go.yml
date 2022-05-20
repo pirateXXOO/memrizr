@@ -26,8 +26,12 @@ jobs:
       working-directory: ./account
       run: go build .
 
-    - name: Test
+    - name: Test handler
       working-directory: ./account
       run: |
         go test -v handler/*
+    
+    - name: Test service
+      working-directory: ./account
+      run: |
         go test -v service/*
