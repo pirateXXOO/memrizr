@@ -16,7 +16,7 @@ type userService struct {
 }
 
 // USConfig will hold repositories that will eventually be injected into this
-// service layer
+// this service layer
 type USConfig struct {
 	UserRepository model.UserRepository
 }
