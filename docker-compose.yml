@@ -14,9 +14,8 @@ services:
       # The Web UI (enabled by --api.insecure=true)
       - "8080:8080"
     volumes:
-      # So that Traefik can listen to the docker events
+      # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
-
   postgres-account:
     image: "postgres:alpine"
     environment:
@@ -36,6 +35,12 @@ services:
       retries: 5
       start_period: 30s
 
+  redis-account:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - "redisdata:/data"
   account:
     build:
       context: ./account
@@ -59,3 +64,4 @@ services:
 
 volumes:
   pgdata_account:
+  redisdata:

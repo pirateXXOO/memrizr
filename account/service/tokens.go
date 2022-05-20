@@ -50,8 +50,8 @@ type RefreshToken struct {
 }
 
 // RefreshTokenCustomClaims holds the payload of a refresh token
-// This can be used to extract user id for subsequent application
-// operations (IE, fetch user in Redis)
+// This can be used to extract user id for subsequent
+// application operations (IE, fetch user in Redis)
 type RefreshTokenCustomClaims struct {
 	UID uuid.UUID `json:"uid"`
 	jwt.StandardClaims

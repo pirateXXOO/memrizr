@@ -62,7 +62,7 @@ func TestSignup(t *testing.T) {
 
 		mockUser := &model.User{
 			Email:    "bob@bob.com",
-			Password: "howdyyhoneighbor!",
+			Password: "howdyhoneighbor!",
 		}
 
 		mockUserRepository := new(mocks.MockUserRepository)
@@ -71,7 +71,7 @@ func TestSignup(t *testing.T) {
 		})
 
 		// We can use Run method to modify the user when the Create method is called.
-		// We can then chain on a Return method to return no error
+		//  We can then chain on a Return method to return no error
 		mockUserRepository.
 			On("Create", mock.AnythingOfType("*context.emptyCtx"), mockUser).
 			Run(func(args mock.Arguments) {
@@ -104,7 +104,7 @@ func TestSignup(t *testing.T) {
 		mockErr := apperrors.NewConflict("email", mockUser.Email)
 
 		// We can use Run method to modify the user when the Create method is called.
-		// We can then chain on a Return method to return no error
+		//  We can then chain on a Return method to return no error
 		mockUserRepository.
 			On("Create", mock.AnythingOfType("*context.emptyCtx"), mockUser).
 			Return(mockErr)
