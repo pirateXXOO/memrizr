@@ -47,6 +47,6 @@ jobs:
         go-version: 1.18
 
     - name: Test handler
-      working-directory: ./account
+      working-directory: ./account/handler
       run: |
-        go test -v handler/*
+        go test -v ./...
