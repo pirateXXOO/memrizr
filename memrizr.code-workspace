@@ -2,5 +2,8 @@
     "folders": [
         {"path": "./account"},
         {"path": "."}
-    ]
+    ],
+    "settings": {
+        "makefile.extensionOutputFolder": "./.vscode"
+    }
 }
