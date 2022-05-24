@@ -1,7 +1,12 @@
 {
     "folders": [
-        {"path": "./account"},
-        {"path": "."}
+        {
+            "name": "account",
+            "path": "account"
+        },
+        {   "name": "memrizr",
+            "path": "."
+        }
     ],
     "settings": {
         "makefile.extensionOutputFolder": "./.vscode"
