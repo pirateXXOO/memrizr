@@ -7,7 +7,7 @@ var validImageTypes = map[string]bool{
 
 // IsAllowedImageType determines if image is among types defined
 // in map of allowed images
-func IsAllowedImageType(mimeType string) bool {
+func isAllowedImageType(mimeType string) bool {
 	_, exists := validImageTypes[mimeType]
 
 	return exists

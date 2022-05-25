@@ -14,14 +14,14 @@ import (
 func (h *Handler) Image(c *gin.Context) {
 	authUser := c.MustGet("user").(*model.User)
 
-	// limit overlay large request bodies
+	// limit overly large request bodies
 	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, h.MaxBodyBytes)
 
 	imageFileHeader, err := c.FormFile("imageFile")
 
 	// check for error before checking for non-nil header
 	if err != nil {
-		// should be validation error
+		// should be a validation error
 		log.Printf("Unable parse multipart/form-data: %+v", err)
 
 		if err.Error() == "http: request body too large" {
@@ -37,10 +37,18 @@ func (h *Handler) Image(c *gin.Context) {
 		return
 	}
 
+	if imageFileHeader == nil {
+		e := apperrors.NewBadRequest("Must include an imageFile")
+		c.JSON(e.Status(), gin.H{
+			"error": e,
+		})
+		return
+	}
+
 	mimeType := imageFileHeader.Header.Get("Content-Type")
 
 	// Validate image mime-type is allowable
-	if valid := IsAllowedImageType(mimeType); !valid {
+	if valid := isAllowedImageType(mimeType); !valid {
 		log.Println("Image is not an allowable mime-type")
 		e := apperrors.NewBadRequest("imageFile must be 'image/jpeg' or 'image/png'")
 		c.JSON(e.Status(), gin.H{
@@ -52,7 +60,6 @@ func (h *Handler) Image(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	updatedUser, err := h.UserService.SetProfileImage(ctx, authUser.UID, imageFileHeader)
-
 	if err != nil {
 		c.JSON(apperrors.Status(err), gin.H{
 			"error": err,

@@ -35,6 +35,36 @@ func NewUserService(c *USConfig) model.UserService {
 	}
 }
 
+func (s *userService) ClearProfileImage(ctx context.Context, uid uuid.UUID) error {
+	user, err := s.UserRepository.FindByID(ctx, uid)
+
+	if err != nil {
+		return err
+	}
+
+	if user.ImageURL == "" {
+		return nil
+	}
+
+	objName, err := objNameFromURL(user.ImageURL)
+	if err != nil {
+		return err
+	}
+
+	err = s.ImageRepository.DeleteProfile(ctx, objName)
+	if err != nil {
+		return err
+	}
+
+	_, err = s.UserRepository.UpdateImage(ctx, uid, "")
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Get retrieves a user based on their uuid
 func (s *userService) Get(ctx context.Context, uid uuid.UUID) (*model.User, error) {
 	u, err := s.UserRepository.FindByID(ctx, uid)
@@ -139,6 +169,7 @@ func (s *userService) SetProfileImage(ctx context.Context, uid uuid.UUID, imageF
 
 	if err != nil {
 		log.Printf("Unable to upload image to cloud provider: %v\n", err)
+		return nil, err
 	}
 
 	updatedUser, err := s.UserRepository.UpdateImage(ctx, u.UID, imageURL)
@@ -166,6 +197,7 @@ func objNameFromURL(imageURL string) (string, error) {
 		log.Printf("Failed to parse objectName from imageURL: %v\n", imageURL)
 		return "", apperrors.NewInternal()
 	}
+
 	// get "path" of url (everything after domain)
 	// then get "base", the last part
 	return path.Base(urlPath.Path), nil
