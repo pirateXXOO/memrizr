@@ -41,9 +41,9 @@ func comparePasswords(storedPassword string, suppliedPassword string) (bool, err
 
 	shash, err := scrypt.Key([]byte(suppliedPassword), salt, 32768, 8, 1, 32)
 
-	if err != nil {
-		return false, fmt.Errorf("scrypt error: %w", err)
-	}
+	// if err != nil {
+	// 	return false, fmt.Errorf("scrypt error: %w", err)
+	// }
 
 	return hex.EncodeToString(shash) == pwsalt[0], nil
 }

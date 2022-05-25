@@ -19,7 +19,6 @@ const (
 	PayloadTooLarge      Type = "PAYLOAD_TOO_LARGE"      // for uploading tons of JSON, or an image over the limit - 413
 	ServiceUnavailable   Type = "SERVICE_UNAVAILABLE"    // For long running handlers
 	UnsupportedMediaType Type = "UNSUPPORTED_MEDIA_TYPE" // for http 415
-
 )
 
 // Error holds a custom error for the application
@@ -106,7 +105,7 @@ func NewConflict(name string, value string) *Error {
 func NewInternal() *Error {
 	return &Error{
 		Type:    Internal,
-		Message: "Internal server error.",
+		Message: fmt.Sprintf("Internal server error."),
 	}
 }
 
@@ -130,7 +129,7 @@ func NewPayloadTooLarge(maxBodySize int64, contentLength int64) *Error {
 func NewServiceUnavailable() *Error {
 	return &Error{
 		Type:    ServiceUnavailable,
-		Message: "Service unavailable or timed out",
+		Message: fmt.Sprintf("Service unavailable or timed out"),
 	}
 }
 

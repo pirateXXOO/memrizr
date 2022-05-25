@@ -30,6 +30,7 @@ func (h *Handler) Tokens(c *gin.Context) {
 		c.JSON(apperrors.Status(err), gin.H{
 			"error": err,
 		})
+		return
 	}
 
 	// get up-to-date user

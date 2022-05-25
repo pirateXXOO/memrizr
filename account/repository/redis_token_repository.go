@@ -83,5 +83,6 @@ func (r *redisTokenRepository) DeleteUserRefreshTokens(ctx context.Context, user
 	if failCount > 0 {
 		return apperrors.NewInternal()
 	}
+
 	return nil
 }

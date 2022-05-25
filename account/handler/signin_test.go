@@ -80,7 +80,7 @@ func TestSignin(t *testing.T) {
 		request, err := http.NewRequest(http.MethodPost, "/signin", bytes.NewBuffer(reqBody))
 		assert.NoError(t, err)
 
-		request.Header.Set("Content-type", "application/json")
+		request.Header.Set("Content-Type", "application/json")
 		router.ServeHTTP(rr, request)
 
 		mockUserService.AssertCalled(t, "Signin", mockUSArgs...)
@@ -128,17 +128,16 @@ func TestSignin(t *testing.T) {
 		request.Header.Set("Content-Type", "application/json")
 		router.ServeHTTP(rr, request)
 
-		reqBody, err = json.Marshal(gin.H{
+		respBody, err := json.Marshal(gin.H{
 			"tokens": mockTokenPair,
 		})
 		assert.NoError(t, err)
 
 		assert.Equal(t, http.StatusOK, rr.Code)
-		assert.Equal(t, reqBody, rr.Body.Bytes())
+		assert.Equal(t, respBody, rr.Body.Bytes())
 
 		mockUserService.AssertCalled(t, "Signin", mockUSArgs...)
 		mockTokenService.AssertCalled(t, "NewPairFromUser", mockTSArgs...)
-
 	})
 
 	t.Run("Failed Token Creation", func(t *testing.T) {
@@ -186,6 +185,5 @@ func TestSignin(t *testing.T) {
 
 		mockUserService.AssertCalled(t, "Signin", mockUSArgs...)
 		mockTokenService.AssertCalled(t, "NewPairFromUser", mockTSArgs...)
-
 	})
 }

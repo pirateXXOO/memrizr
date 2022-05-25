@@ -19,7 +19,8 @@ func (h *Handler) Signout(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": "user signed out successfully",
+		"message": "user signed out successfully!",
 	})
 }
