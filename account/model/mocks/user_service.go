@@ -55,5 +55,6 @@ func (m *MockUserService) Signin(ctx context.Context, u *model.User) error {
 	if ret.Get(0) != nil {
 		r0 = ret.Get(0).(error)
 	}
+
 	return r0
 }

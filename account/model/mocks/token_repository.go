@@ -44,7 +44,7 @@ func (m *MockTokenRepository) DeleteUserRefreshTokens(ctx context.Context, userI
 
 	var r0 error
 
-	if m.Called(0) != nil {
+	if ret.Get(0) != nil {
 		r0 = ret.Get(0).(error)
 	}
 

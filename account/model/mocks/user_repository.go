@@ -43,6 +43,7 @@ func (m *MockUserRepository) Create(ctx context.Context, u *model.User) error {
 	return r0
 }
 
+// FindByEmail is mock of UserRepository.FindByEmail
 func (m *MockUserRepository) FindByEmail(ctx context.Context, email string) (*model.User, error) {
 	ret := m.Called(ctx, email)
 
@@ -56,5 +57,6 @@ func (m *MockUserRepository) FindByEmail(ctx context.Context, email string) (*mo
 	if ret.Get(1) != nil {
 		r1 = ret.Get(1).(error)
 	}
+
 	return r0, r1
 }

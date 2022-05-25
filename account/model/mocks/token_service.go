@@ -75,6 +75,7 @@ func (m *MockTokenService) ValidateRefreshToken(refreshTokenString string) (*mod
 	}
 
 	var r1 error
+
 	if ret.Get(1) != nil {
 		r1 = ret.Get(1).(error)
 	}

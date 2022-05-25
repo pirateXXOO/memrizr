@@ -196,6 +196,40 @@ func TestNewPairFromUser(t *testing.T) {
 	})
 }
 
+func TestSignout(t *testing.T) {
+	mockTokenRepository := new(mocks.MockTokenRepository)
+	tokenService := NewTokenService(&TSConfig{
+		TokenRepository: mockTokenRepository,
+	})
+
+	t.Run("No error", func(t *testing.T) {
+		uidSuccess, _ := uuid.NewRandom()
+		mockTokenRepository.
+			On("DeleteUserRefreshTokens", mock.AnythingOfType("*context.emptyCtx"), uidSuccess.String()).
+			Return(nil)
+
+		ctx := context.Background()
+		err := tokenService.Signout(ctx, uidSuccess)
+		assert.NoError(t, err)
+	})
+
+	t.Run("Error", func(t *testing.T) {
+		uidError, _ := uuid.NewRandom()
+		mockTokenRepository.
+			On("DeleteUserRefreshTokens", mock.AnythingOfType("*context.emptyCtx"), uidError.String()).
+			Return(apperrors.NewInternal())
+
+		ctx := context.Background()
+		err := tokenService.Signout(ctx, uidError)
+
+		assert.Error(t, err)
+
+		apperr, ok := err.(*apperrors.Error)
+		assert.True(t, ok)
+		assert.Equal(t, apperr.Type, apperrors.Internal)
+	})
+}
+
 func TestValidateIDToken(t *testing.T) {
 	var idExp int64 = 15 * 60
 
@@ -258,4 +292,41 @@ func TestValidateIDToken(t *testing.T) {
 	})
 
 	// TODO - Add other invalid token types
+}
+
+func TestValidateRefreshToken(t *testing.T) {
+	var refreshExp int64 = 3 * 24 * 2600
+	secret := "anotsorandomtestsecret"
+
+	tokenService := NewTokenService(&TSConfig{
+		RefreshSecret:         secret,
+		RefreshExpirationSecs: refreshExp,
+	})
+
+	uid, _ := uuid.NewRandom()
+	u := &model.User{
+		UID:      uid,
+		Email:    "bob@bob.com",
+		Password: "blarghedymcblarghface",
+	}
+
+	t.Run("Valid token", func(t *testing.T) {
+		testRefreshToken, _ := generateRefreshToken(u.UID, secret, refreshExp)
+
+		validatedRefreshToken, err := tokenService.ValidateRefreshToken(testRefreshToken.SS)
+		assert.NoError(t, err)
+
+		assert.Equal(t, u.UID, validatedRefreshToken.UID)
+		assert.Equal(t, testRefreshToken.SS, validatedRefreshToken.SS)
+		assert.Equal(t, u.UID, validatedRefreshToken.UID)
+	})
+
+	t.Run("Expired token", func(t *testing.T) {
+		testRefreshToken, _ := generateRefreshToken(u.UID, secret, -1)
+
+		expectedErr := apperrors.NewAuthorization("Unable to verify user from refresh token")
+
+		_, err := tokenService.ValidateRefreshToken(testRefreshToken.SS)
+		assert.EqualError(t, err, expectedErr.Message)
+	})
 }
