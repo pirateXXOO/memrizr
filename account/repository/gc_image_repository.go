@@ -25,13 +25,26 @@ func NewImageRepository(gcClient *storage.Client, bucketName string) model.Image
 	}
 }
 
+func (r *gcImageRepository) DeleteProfile(ctx context.Context, objName string) error {
+	bckt := r.Storage.Bucket(r.BucketName)
+
+	object := bckt.Object(objName)
+
+	if err := object.Delete(ctx); err != nil {
+		log.Printf("Failed to delete image object with ID: %s from GC Storage\n", objName)
+		return apperrors.NewInternal()
+	}
+
+	return nil
+}
+
 func (r *gcImageRepository) UpdateProfile(ctx context.Context, objName string, imageFile multipart.File) (string, error) {
 	bckt := r.Storage.Bucket(r.BucketName)
 
 	object := bckt.Object(objName)
 	wc := object.NewWriter(ctx)
 
-	// set cache control so profile image will be served fresh by browers
+	// set cache control so profile image will be served fresh by browsers
 	// To do this with object handle, you'd first have to upload, then update
 	wc.ObjectAttrs.CacheControl = "Cache-Control:no-cache, max-age=0"
 
