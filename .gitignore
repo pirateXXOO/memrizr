@@ -1,3 +1,4 @@
 account/.env.dev
 *.pem
 .vscode
+account/crack-meridian-351305-4d4c117f67ef.json
