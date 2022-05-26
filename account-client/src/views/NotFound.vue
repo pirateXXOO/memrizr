@@ -5,6 +5,6 @@
 <script>
 import { defineComponent } from "vue";
 export default defineComponent({
-    name: 'Not Found',
+    name: 'NotFound',
 });
 </script>

@@ -1,11 +1,21 @@
+<template>
+  <div>
+    <div class="text-4xl font-bol text-center my-2">Tailwind Works!</div>
+    <div class="text-xl text-center" v-if="errorCode">
+    Error code: {{ errorCode }}
+    </div>
+    <div class="text-center" v-if="errorMessage">{{ errorMessage }}</div>
+  </div>
+</template>
+
 <script>
-import { defineComponent, onMounted , ref} from "vue";
-import axios from 'axios'
+import { defineComponent, ref, onMounted } from "vue";
+import axios from 'axios';
 
 // Wrapping exported object in define component
 // gives us typing help! Woot!
 export default defineComponent({
-  name: 'Details',
+  name: 'DetailsCom',
   setup () {
     const errorCode = ref(null);
     const errorMessage = ref(null);
@@ -27,17 +37,9 @@ export default defineComponent({
     });
 
     return {
-      errorCode, 
+      errorCode,
       errorMessage,
     };
   },
 });
 </script>
-
-<template>
-  <div>
-    <div class="text-4xl font-bol text-center my-2">Tailwind Works!</div>
-    <div class="text-xl text-center" v-if="errorCode">Error code: {{ errorCode }}</div>
-    <div class="text-center" v-if="errorMessage">Error code: {{ errorMessage }}</div>
-  </div>
-</template>

@@ -16,6 +16,6 @@ export default defineComponent({
       <router-link to="/authenticate">Auth</router-link>
       <router-link to="/notaroute">Not a Route</router-link>
     </div>
-  </div>
   <router-view></router-view>
+  </div>
 </template>

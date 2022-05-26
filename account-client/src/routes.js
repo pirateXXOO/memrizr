@@ -1,19 +1,19 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Auth from './views/Auth.vue';
-import Details from './views/Details.vue';
+import AuthCom from './views/Auth.vue';
+import DetailsCom from './views/Details.vue';
 import NotFound from './views/NotFound.vue';
 
 const routes = [
     {
         path: '/authenticate',
         name: 'Auth',
-        component: Auth,
+        component: AuthCom,
     },
     {
         path: '/',
         name: 'Details',
-        component: Details,
+        component: DetailsCom,
     },
     {
         path: '/:catchAll(.*)*',
