@@ -9,6 +9,12 @@ ENV PATH /app/node_modules/.bin:$PATH
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
 
+# Set Chinese npm mirror
+RUN npm config set registry=https://registry.npmmirror.com
+
+# update npm
+RUN npm install -g npm@latest
+
 # install project dependencies
 RUN npm install
 
