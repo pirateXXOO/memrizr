@@ -8,7 +8,6 @@
       placeholder="Email Address"
       @input="emailField.handleChange"
       @blur="emailField.handleBlur"
-      :value="emailField.value"
       class="px-4 my-2 min-w-full mx-auto border border-gray-500 rounded-full focus:outline-none focus:ring-1 focus:border-blue-300"
     />
     <p
@@ -29,7 +28,6 @@
         passwordField.handleChange($event), confirmPasswordField.validate()
       "
       @blur="passwordField.handleBlur"
-      :value="passwordField.value"
       class="px-4 my-2 min-w-full mx-auto border border-gray-500 rounded-full focus:outline-none focus:ring-1 focus:border-blue-300"
     />
     <p
@@ -50,7 +48,6 @@
         placeholder="Confirm Password"
         @input="confirmPasswordField.handleChange"
         @blur="confirmPasswordField.handleBlur"
-        :value="confirmPasswordField.value"
         class="px-4 my-2 min-w-full mx-auto border border-gray-500 rounded-full focus:outline-none focus:ring-1 focus:border-blue-300"
       />
       <p
