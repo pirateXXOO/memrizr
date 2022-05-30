@@ -3,7 +3,7 @@
     <LoaderCom 
       v-if="isLoading"
       :height="512"
-      class="animate-spin stroke-current text-blue-500 ms-auto"
+      class="animate-spin stroke-current text-blue-500 mx-auto"
     />
     <router-view v-else></router-view>
   </div>
@@ -23,12 +23,14 @@ export default defineComponent({
   },
   setup() {
     const { initializeUser, isLoading } = useAuth();
+
     onMounted(() => {
       initializeUser();
-    })
+    });
+
     return {
       isLoading,
-    }
+    };
   },
 });
 </script>
