@@ -33,7 +33,7 @@ You may also download the code directly and initialize a repository manually.
 
 ## Runing the Application
 
-`.env.dev` files are provided in each application directory for providing development environment variables and quickly running this application, hopefully without any major headaches. 
+`.env.dev` files are provided in each application directory for providing development environment variables and quickly running this application, hopefully without any major headaches.
 
 We won't be adding any critical keys directly to the `.env.dev` file. However, we will eventually refer to access key files in `.env.dev`. Make sure to add these key files to your .gitignore.
 
@@ -43,7 +43,7 @@ This application uses Traefik as a reverse proxy. In `docker-compose.yml`, our `
 
 `127.0.0.1       malcorp.test`
 
-The hosts file can be found (to the best of my knowledge) at `/etc/hosts` on Mac/Linux or `C:\Windows\System32\drivers\etc` on Windows. 
+The hosts file can be found (to the best of my knowledge) at `/etc/hosts` on Mac/Linux or `C:\Windows\System32\drivers\etc` on Windows.
 
 ### Run make init
 
@@ -57,7 +57,7 @@ From the project root director, run:
 make init
 ```
 
-*Note that in `make init` I do not check to make sure Postgres is ready for connections, even though the docker-compose command will have completed. I want to avoid writting a [complex script](https://stackoverflow.com/questions/57514720/bash-script-command-to-wait-until-docker-compose-process-has-finished-before-mov). Thereofore, there is a chance that the database will not be ready in time for the migrate commands. In msot cases, you just need to try running `make init` again.* 
+*Note that in `make init` I do not check to make sure Postgres is ready for connections, even though the docker-compose command will have completed. I want to avoid writting a [complex script](https://stackoverflow.com/questions/57514720/bash-script-command-to-wait-until-docker-compose-process-has-finished-before-mov). Thereofore, there is a chance that the database will not be ready in time for the migrate commands. In msot cases, you just need to try running `make init` again.*
 
 *If any of you has scripting skills, please submit a PR and I'll update this! It make require pinging, or adding some script into, the Postgres container(s)*
 
@@ -71,19 +71,18 @@ Instructions for installing the Google Cloud Storage Client and getting this key
 
 ### Google Cloud Storage Config
 
-With access to your Google Cloud project, you will also need to [create a cloud storage bucket](https://cloud.google.com/storage/docs/creating-buckets) for storing the user's profile image. 
+With access to your Google Cloud project, you will also need to [create a cloud storage bucket](https://cloud.google.com/storage/docs/creating-buckets) for storing the user's profile image.
 
-This bucket name must be unique across Google Cloud projects. 
+This bucket name must be unique across Google Cloud projects.
 
-You will then need to [make all bucket objects public](https://cloud.google.com/storage/docs/access-control/making-data-public#buckets) which will allow a public URL to be created for each profile iamge. 
+You will then need to [make all bucket objects public](https://cloud.google.com/storage/docs/access-control/making-data-public#buckets) which will allow a public URL to be created for each profile iamge.
 
-Finally, you will need to provide the unique bucket name to the `account/.env.dev` file 
+Finally, you will need to provide the unique bucket name to the `account/.env.dev` file
 
 `GC_IMAGE_BUCKET=my_uniquebucket_name`
 
 ### Run
 
 To run this code, you will need docker and docker-compose installed on your machine. In the project root, run `docker-compose up`.
-
 
 Cheers, eh!
