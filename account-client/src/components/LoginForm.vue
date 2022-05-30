@@ -66,11 +66,16 @@
 
     <div class="flex justify-center mt-4">
       <button
-        class="btn btn-blue mx-1"
+        class="btn btn-blue mx-1 flex items-center"
         :disabled="!formMeta.valid"
         @click="submitForm"
       >
-        {{ isLogin ? 'Login' : 'Sign Up' }}
+        <span>{{ isLogin ? 'Login' : 'Sign Up' }}</span>
+        <LoaderCom
+          v-if="isSubmitting"
+          class="animate-spin stroke-current text-white ml-2"
+          :height="16" 
+        />
       </button>
     </div>
   </div>
@@ -79,9 +84,13 @@
 <script>
 import { defineComponent, reactive, computed, watch } from 'vue';
 import { useField, useForm } from 'vee-validate';
+import LoaderCom from './ui/Loader.vue';
 
 export default defineComponent({
-  name: 'LoginForm',
+  name: "LoginForm",
+  components: {
+    LoaderCom,
+  },
   props: {
     isLogin: {
       type: Boolean,
@@ -97,31 +106,25 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const { meta: formMeta, handleSubmit } = useForm();
-    const emailField = reactive(useField('email', 'email'));
-    const passwordField = reactive(useField('password', 'password'));
-
+    const emailField = reactive(useField("email", "email"));
+    const passwordField = reactive(useField("password", "password"));
     const confirmPasswordValidator = computed(() => {
-      return !props.isLogin ? 'confirmPassword:password' : () => true;
+        return !props.isLogin ? "confirmPassword:password" : () => true;
     });
-
     const confirmPasswordField = reactive(
-      useField('confirmPassword', confirmPasswordValidator)
+      useField("confirmPassword", confirmPasswordValidator)
     );
-
     watch(
       () => props.isLogin,
       () => {
         confirmPasswordField.validate();
-      }
-    );
-
+    });
     const submitForm = handleSubmit((formValues) => {
-      emit('submitAuth', {
-        email: formValues.email,
+      emit("submitAuth", {
+      email: formValues.email,
         password: formValues.password,
       });
     });
-
     return {
       emailField,
       passwordField,
