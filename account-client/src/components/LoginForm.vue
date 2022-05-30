@@ -74,7 +74,7 @@
         <LoaderCom
           v-if="isSubmitting"
           class="animate-spin stroke-current text-white ml-2"
-          :height="16" 
+          :height="16"
         />
       </button>
     </div>
@@ -109,7 +109,7 @@ export default defineComponent({
     const emailField = reactive(useField("email", "email"));
     const passwordField = reactive(useField("password", "password"));
     const confirmPasswordValidator = computed(() => {
-        return !props.isLogin ? "confirmPassword:password" : () => true;
+      return !props.isLogin ? "confirmPassword:password" : () => true;
     });
 
     const confirmPasswordField = reactive(
@@ -120,7 +120,9 @@ export default defineComponent({
       () => props.isLogin,
       () => {
         confirmPasswordField.validate();
-    });
+      }
+    );
+
     const submitForm = handleSubmit((formValues) => {
       emit("submitAuth", {
       email: formValues.email,

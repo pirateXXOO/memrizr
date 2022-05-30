@@ -1,6 +1,5 @@
 <template>
   <div class="max-w-3xl mx-auto">
-    <h1 class="text-3xl text-center">Update User</h1>
     <ImageCropper @imageCropped="$emit('imageSubmitted', $event)" />
     <div class="max-w-xl px-4 mx-auto">
       <div class="my-1">
@@ -73,86 +72,87 @@
         </button>
       </div>
     </div>
-   </div>
+  </div>
 </template>
 
 <script>
-  import { defineComponent } from "vue";
-  import { useForm, useField } from 'vee-validate';
-  import ImageCropper from "./ui/ImageCropper.vue";
-  export default defineComponent({
-    name: 'UserForm',
-    components: {
-      ImageCropper,
+import { defineComponent } from "vue";
+import { useForm, useField } from 'vee-validate';
+import ImageCropper from "./ui/ImageCropper.vue";
+export default defineComponent({
+  name: 'UserForm',
+  components: {
+    ImageCropper,
+  },
+  props: {
+    user: {
+      type: Object,
+      default: null,
     },
-    props: {
-      user: {
-        type: Object,
-        default: null,
-      },
-    },
-    setup(props, { emit }) {
-      const { meta: formMeta, handleSubmit } = useForm();
-      const {
-        value: emailValue,
-        meta: emailMeta,
-        errorMessage: emailErrorMessage,
-        handleBlur: handleEmailBlur,
-        handleChange: handleEmailChange,
-      } = useField('email', 'email', {
-        initialValue: props.user.email,
-        validateOnMount: true,
-      });
+  },
+  emits: ['detailsSubmitted', 'imageSubmitted'],
+  setup(props, { emit }) {
+    const { meta: formMeta, handleSubmit } = useForm();
+    const {
+      value: emailValue,
+      meta: emailMeta,
+      errorMessage: emailErrorMessage,
+      handleBlur: handleEmailBlur,
+      handleChange: handleEmailChange,
+    } = useField('email', 'email', {
+      initialValue: props.user.email,
+      validateOnMount: true,
+    });
 
-      const {
-        value: nameValue,
-        meta: nameMeta,
-        errorMessage: nameErrorMessage,
-        handleBlur: handleNameBlur,
-        handleChange: handleNameChange,
-      } = useField('name', 'name', {
-        initialValue: props.user.name,
-        validateOnMount: true,
-      });
+    const {
+      value: nameValue,
+      meta: nameMeta,
+      errorMessage: nameErrorMessage,
+      handleBlur: handleNameBlur,
+      handleChange: handleNameChange,
+    } = useField('name', 'name', {
+      initialValue: props.user.name,
+      validateOnMount: true,
+    });
 
-      const {
-        value: websiteValue,
-        meta: websiteMeta,
-        errorMessage: websiteErrorMessage,
-        handleBlur: handleWebsiteBlur,
-        handleChange: handleWebsiteChange,
-      } = useField('website', 'url', {
-        initialValue: props.user.website,
-        validateOnMount: true,
-      });
+    const {
+      value: websiteValue,
+      meta: websiteMeta,
+      errorMessage: websiteErrorMessage,
+      handleBlur: handleWebsiteBlur,
+      handleChange: handleWebsiteChange,
+    } = useField('website', 'url', {
+      initialValue: props.user.website,
+      validateOnMount: true,
+    });
 
-      const submitDetails = handleSubmit((formValues) => {
-        emit('detailsSubmitted', {
-          email: formValues.email,
-          name: formValues.name,
-          website: formValues.website,
-        });
+    const submitDetails = handleSubmit((formValues) => {
+      emit('detailsSubmitted', {
+        email: formValues.email,
+        name: formValues.name,
+        website: formValues.website,
       });
+    });
 
-      return {
-        formMeta,
-        emailValue,
-        emailMeta,
-        emailErrorMessage,
-        handleEmailBlur,
-        handleEmailChange,
-        nameValue,
-        nameMeta,
-        nameErrorMessage,
-        handleNameBlur,
-        handleNameChange,
-        websiteValue,
-        websiteMeta,
-        websiteErrorMessage,
-        handleWebsiteBlur,
-        handleWebsiteChange,
-        submitDetails,
-      };
-    },
-  });
+    return {
+      formMeta,
+      emailValue,
+      emailMeta,
+      emailErrorMessage,
+      handleEmailBlur,
+      handleEmailChange,
+      nameValue,
+      nameMeta,
+      nameErrorMessage,
+      handleNameBlur,
+      handleNameChange,
+      websiteValue,
+      websiteMeta,
+      websiteErrorMessage,
+      handleWebsiteBlur,
+      handleWebsiteChange,
+      submitDetails,
+    };
+  },
+});
 </script>

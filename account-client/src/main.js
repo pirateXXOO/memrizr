@@ -1,9 +1,9 @@
 import { createApp } from 'vue';
 import App from './App.vue';
+import { createAuthStore } from '../src/store/auth';
 import router from './routes';
 import './validators';
 import './index.css';
-import { createAuthStore } from '../src/store/auth';
 
 const authStore = createAuthStore({
   onAuthRoute: '/',
