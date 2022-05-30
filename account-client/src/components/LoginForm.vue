@@ -111,9 +111,11 @@ export default defineComponent({
     const confirmPasswordValidator = computed(() => {
         return !props.isLogin ? "confirmPassword:password" : () => true;
     });
+
     const confirmPasswordField = reactive(
       useField("confirmPassword", confirmPasswordValidator)
     );
+
     watch(
       () => props.isLogin,
       () => {
@@ -125,6 +127,7 @@ export default defineComponent({
         password: formValues.password,
       });
     });
+
     return {
       emailField,
       passwordField,
