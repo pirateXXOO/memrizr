@@ -1,8 +1,11 @@
 module.exports = {
   content: [
-    "./src/*",
+    "./src/**/*",
   ],
   theme: {
+    extend: {},
+  },
+  variants: {
     extend: {},
   },
   plugins: [],
